@@ -9,6 +9,7 @@ import {RiLockPasswordFill} from "react-icons/ri";
 //import lock_icon from '../Assets/lock.png';
 
 const LoginForm = () => {
+
     return (
         <div className="container">
             <div className="header">
@@ -16,10 +17,6 @@ const LoginForm = () => {
                 <div className="underline"></div>
             </div>
             <div className="inputs">
-                <div className="input">
-                    <FaUser />
-                    <input type="text" />
-                </div>
                 <div className="input">
                     <MdEmail />
                     <input type="email" />
