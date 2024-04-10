@@ -1,0 +1,31 @@
+
+.container{
+    justify-content: center;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 200px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    text-align: center;
+    background: transparent;
+    backdrop-filter: blur(30px);
+    color: rgb(52, 200, 32);
+    border-radius: 10px;
+    border: 2px solid rgb(21, 126, 212);
+}
+
+.header{
+    flex-direction: column;
+    text-align: center;
+}
+.input{
+    text-align: center;
+}
+.forgot-password{
+    text-align: center;
+}
+.submit{
+    text-align: center;
+}
