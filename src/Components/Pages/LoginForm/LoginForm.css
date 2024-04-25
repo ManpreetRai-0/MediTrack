@@ -1,22 +1,32 @@
 
-.container{
-    justify-content: center;
-    width: 300px;
+.background{
     display: flex;
+    background-image: url(../../Assets/Medi.png);
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    text-align: center;
     flex-direction: column;
     margin: auto;
+    width: 300px;
     margin-top: 200px;
     padding-top: 10px;
     padding-bottom: 30px;
-    text-align: center;
     background: transparent;
     backdrop-filter: blur(30px);
     color: rgb(52, 200, 32);
+    color: rgb(0, 0, 0);
     border-radius: 10px;
     border: 2px solid rgb(21, 126, 212);
 }
 
-.header{
+.Login{
     flex-direction: column;
     text-align: center;
 }
@@ -26,6 +36,12 @@
 .forgot-password{
     text-align: center;
 }
-.submit{
+.submit-container{
     text-align: center;
+}
+.Submit-Button{
+    background: transparent;
+    border-color: transparent;
+    border: 2px solid rgb(21, 126, 212);
+    color: rgb(0, 0, 0);
 }

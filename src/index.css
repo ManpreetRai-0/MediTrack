@@ -7,7 +7,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   
   height: 100vh;
-  background-image: url(./Components/Assets/pulse-trace.jpg);
   /*background: linear-gradient( rgb(166, 0, 255), rgb(0, 162, 255))*/
 }
 
