@@ -1,11 +1,14 @@
 import React from 'react';
-import './App.css';
+import './HealthInfo.css';
 
 // Patient Info Component
 function PatientInfo({ name, age, gender }) {
   return (
     <div className="info-container">
-      <h2>Patient Information</h2>
+      <div className="patient-header">
+        <h2>Patient Information</h2>
+        <button className="schedule-btn">Schedule Appointment</button>
+      </div>
       <p><strong>Name:</strong> {name}</p>
       <p><strong>Age:</strong> {age}</p>
       <p><strong>Gender:</strong> {gender}</p>
@@ -13,11 +16,20 @@ function PatientInfo({ name, age, gender }) {
   );
 }
 
+
 // Health Records Component
-function HealthRecords({ vaccinations, diagnoses, prescriptions, labVisits }) {
+function HealthRecords({ visitHistory, vaccinations, diagnoses, prescriptions, labVisits }) {
   return (
     <div className="records-container">
       <h2>Health Records</h2>
+      <div>
+        <h3>Visit History</h3>
+        <ul>
+          {visitHistory.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </div>
       <div>
         <h3>Vaccination History</h3>
         <ul>
@@ -54,11 +66,29 @@ function HealthRecords({ vaccinations, diagnoses, prescriptions, labVisits }) {
   );
 }
 
+
+
 // Main App Component
-function App() {
+function HealthInfo() {
   const patientName = 'John Doe';
   const patientAge = 30;
   const patientGender = 'Male';
+
+  // Static data for other patients (names)
+  const otherPatients = [
+    'Jane Smith',
+    'Mike Johnson',
+    'Emily Brown',
+    'David Lee',
+    'Sarah Wilson',
+    'Alex Thompson'
+  ];
+
+  const visitHistory = [
+    '2023-01-15: Routine Checkup',
+    '2022-11-20: Follow-up Visit',
+    '2022-08-05: Annual Physical Exam'
+  ];
 
   const vaccinations = [
     'COVID-19 Vaccine (2021)',
@@ -79,38 +109,50 @@ function App() {
   ];
 
   const labVisits = [
-    '2023-02-10: Blood Test - Lipid Panel',
-    '2022-12-15: Urine Analysis',
+    '2023-02-10: MRI Scan',
+    '2022-12-15: X-Ray',
     '2022-09-20: Hemoglobin A1c Test'
   ];
 
   return (
-    <div className="app">
-      
-      {/* Search Bar (Top Right Corner) */}
-      <div className="search-bar">
-        <input type="text" placeholder="Search patients..." />
-        <button>Search</button>
-      </div>
-      <h1>Patient Health Information</h1>
+  
+      <div className="app">
+        {/* Search Bar (Top Right Corner) */}
+        <div className="search-bar">
+          <input type="text" placeholder="Search patients..." />
+          <button>Search</button>
+        </div>
+        <h1>Patient Health Information</h1>
 
-      <PatientInfo name={patientName} age={patientAge} gender={patientGender} />
-      <HealthRecords
-        vaccinations={vaccinations}
-        diagnoses={diagnoses}
-        prescriptions={prescriptions}
-        labVisits={labVisits}
-      />
+        <PatientInfo name={patientName} age={patientAge} gender={patientGender} />
+        <HealthRecords
+          visitHistory={visitHistory}
+          vaccinations={vaccinations}
+          diagnoses={diagnoses}
+          prescriptions={prescriptions}
+          labVisits={labVisits}
+        />
 
-      {/* Bottom Navigation Bar */}
-      <div className="bottom-nav">
-        <button>Dashboard</button>
-        <button>Patient General Info</button>
-        <button>Calendar & Appointments</button>
-        <button>Settings</button>
-      </div>
-    </div>
+        {/* Patient List on the Right Side */}
+        <div className="patient-list">
+          <h2>Other Patients</h2>
+          <ul>
+            {otherPatients.map((name, index) => (
+              <li key={index}>{name}</li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Bottom Navigation Bar */}
+        <div className="bottom-nav">
+          <button>Dashboard</button>
+          <button>Patient General Info</button>
+          <button>Calendar & Appointments</button>
+          <button>Settings</button>
+        </div>
+        </div>
+       
   );
 }
 
-export default App;
+export default HealthInfo;
