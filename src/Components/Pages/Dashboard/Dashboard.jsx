@@ -5,7 +5,7 @@ import './Dashboard.css';
 import { IoMdSettings } from "react-icons/io";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
-
+import { NaviBar } from "../NaviBar/NaviBar"
 
 export function Dashboard(){
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
@@ -43,6 +43,7 @@ export function Dashboard(){
         <div>
             <div className="Board">
                 <h1 className="Header">Dashboard</h1>
+                <NaviBar user/>
                 <button className="Setting" onClick={openModal}><IoMdSettings/></button>
                 <Modal 
                     isOpen={modalIsOpen}

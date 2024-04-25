@@ -20,7 +20,7 @@ export function LoginForm() {
     const handleClick = () => {
         alert('No User');
         setUser(true);
-        user ? navigate("/dash-board") : alert('No User');;
+        user ? navigate("/navi") : alert('No User');;
     }
 
 

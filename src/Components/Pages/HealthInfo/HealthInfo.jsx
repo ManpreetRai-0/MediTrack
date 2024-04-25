@@ -1,5 +1,6 @@
 import React from 'react';
 import './HealthInfo.css';
+import { Dashboard } from '../Dashboard/Dashboard';
 
 // Patient Info Component
 function PatientInfo({ name, age, gender }) {
@@ -69,7 +70,7 @@ function HealthRecords({ visitHistory, vaccinations, diagnoses, prescriptions, l
 
 
 // Main App Component
-function HealthInfo() {
+export function HealthInfo() {
   const patientName = 'John Doe';
   const patientAge = 30;
   const patientGender = 'Male';
@@ -143,16 +144,16 @@ function HealthInfo() {
           </ul>
         </div>
 
-        {/* Bottom Navigation Bar */}
+        {/* Bottom Navigation Bar
         <div className="bottom-nav">
-          <button>Dashboard</button>
+          <button >Dashboard</button>
           <button>Patient General Info</button>
           <button>Calendar & Appointments</button>
           <button>Settings</button>
-        </div>
+        </div>*/}
         </div>
        
   );
 }
 
-export default HealthInfo;
+//export default HealthInfo;
