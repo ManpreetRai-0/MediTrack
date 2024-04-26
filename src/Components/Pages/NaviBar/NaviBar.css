@@ -7,3 +7,49 @@
     border-radius: 5px;
     cursor: pointer;
   }
+  .bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #535353;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+  
+  .bottom-nav button:hover {
+    background-color: #4da3ff;
+  
+  }
+
+  .close-nav button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: 1px solid #003e80;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .close-nav {
+    display: flex;
+    justify-content: right;
+    text-align: right;
+    padding: 20px;
+    width: 30px;
+    background-color: #535353;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+  }
+  
+  .close-nav button:hover {
+    background-color: #4da3ff;
+  
+  }
+
+  .NaviMenu{
+    background: transparent;
+    border-color: transparent;
+  }
