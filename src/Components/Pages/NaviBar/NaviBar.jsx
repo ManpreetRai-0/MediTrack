@@ -9,7 +9,7 @@ export function NaviBar(user){
     const [barVisable, setBarVisable] = useState(true);
     
     function handleBar(){
-        barVisable ? setBarVisable(false) : setBarVisable(true);
+        setBarVisable(!barVisable);
     }
 
     const navigate = useNavigate();
@@ -38,9 +38,11 @@ export function NaviBar(user){
             </div>
             )
             :
+            (
             <div className="close-nav">
                 <button className="NaviMenu" onClick={handleBar}><TiThMenu/></button>
             </div>
+            )
             }
         </>
     );
