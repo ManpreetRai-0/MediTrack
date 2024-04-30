@@ -25,7 +25,7 @@ export function NaviBar(user){
         <Outlet/>
         <div className="bottom-nav">
           <button onClick={handleDash}>Dashboard</button>
-          <button onClick={handlePatientInfo}>Patient General Info</button>
+          <button onClick={handlePatientInfo}>Patient Info</button>
           <button>Calendar & Appointments</button>
           <button>Settings</button>
         </div>
