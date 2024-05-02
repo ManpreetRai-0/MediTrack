@@ -2,11 +2,15 @@ import React from 'react';
 import { useState } from 'react';
 import './NaviBar.css';
 import { useNavigate, Outlet } from 'react-router-dom';
-
+import { TiThMenu } from "react-icons/ti";
 
 export function NaviBar(user){
 
+    const [barVisable, setBarVisable] = useState(true);
     
+    function handleBar(){
+        setBarVisable(!barVisable);
+    }
 
     const navigate = useNavigate();
     function handleDash(){
@@ -22,13 +26,24 @@ export function NaviBar(user){
     return(
         /* Bottom Navigation Bar */
         <>
-        <Outlet/>
-        <div className="bottom-nav">
-          <button onClick={handleDash}>Dashboard</button>
-          <button onClick={handlePatientInfo}>Patient Info</button>
-          <button>Calendar & Appointments</button>
-          <button>Settings</button>
-        </div>
+            <Outlet/>
+            {barVisable ? 
+            (
+            <div className="bottom-nav">
+                <button onClick={handleDash}>Dashboard</button>
+                <button onClick={handlePatientInfo}>Patient General Info</button>
+                <button>Calendar & Appointments</button>
+                <button>Settings</button>
+                <button className="NaviMenu" onClick={handleBar}><TiThMenu/></button>
+            </div>
+            )
+            :
+            (
+            <div className="close-nav">
+                <button className="NaviMenu" onClick={handleBar}><TiThMenu/></button>
+            </div>
+            )
+            }
         </>
     );
 };

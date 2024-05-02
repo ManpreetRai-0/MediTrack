@@ -1,16 +1,16 @@
 import { initializeApp } from "firebase/app";
-import {getAuth} from 'firebase/auth'
+import { getAuth } from 'firebase/auth'
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAt4w7tsP2MBU329B7VHMtNC1QHQ_KJAdM",
-  authDomain: "test-93238.firebaseapp.com",
-  projectId: "test-93238",
-  storageBucket: "test-93238.appspot.com",
-  messagingSenderId: "609439793439",
-  appId: "1:609439793439:web:aba135225f3d697334702a",
-  measurementId: "G-GCJ94NC1LQ"
+  apiKey: "AIzaSyCSUwPJHtRlKSOMtVwtFWjLQnra3u5GJ7Y",
+  authDomain: "meditrack-d0532.firebaseapp.com",
+  projectId: "meditrack-d0532",
+  storageBucket: "meditrack-d0532.appspot.com",
+  messagingSenderId: "483396025420",
+  appId: "1:483396025420:web:af91d922c30e17168a88e9",
+  measurementId: "G-BJ174GC4S7"
 };
 
 // Initialize Firebase

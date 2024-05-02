@@ -1,158 +1,204 @@
 import React from 'react';
 import './HealthInfo.css';
-import { Dashboard } from '../Dashboard/Dashboard';
 
-// Patient Info Component
-function PatientInfo({ name, age, gender }) {
-  return (
-    <div className="info-container">
-      <div className="patient-header">
-        <h2>Patient Information</h2>
-        <button className="schedule-btn">Schedule Appointment</button>
-      </div>
-      <p><strong>Name:</strong> {name}</p>
-      <p><strong>Age:</strong> {age}</p>
-      <p><strong>Gender:</strong> {gender}</p>
-    </div>
-  );
-}
-
-
-// Health Records Component
-function HealthRecords({ visitHistory, vaccinations, diagnoses, prescriptions, labVisits }) {
-  return (
-    <div className="records-container">
-      <h2>Health Records</h2>
-      <div>
-        <h3>Visit History</h3>
-        <ul>
-          {visitHistory.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h3>Vaccination History</h3>
-        <ul>
-          {vaccinations.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h3>Current Diagnoses</h3>
-        <ul>
-          {diagnoses.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h3>Prescriptions</h3>
-        <ul>
-          {prescriptions.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h3>Lab Visits</h3>
-        <ul>
-          {labVisits.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
+import { useState, useEffect } from "react";
+import { db } from "../Config/firebase";
+import {
+  getDocs,
+  addDoc,
+  deleteDoc,
+  updateDoc,
+  doc,
+  collection
+} from "firebase/firestore";
 
 
 // Main App Component
 export function HealthInfo() {
-  const patientName = 'John Doe';
-  const patientAge = 30;
-  const patientGender = 'Male';
+  const [patientList, setPatientList] = useState([]);
 
-  // Static data for other patients (names)
-  const otherPatients = [
-    'Jane Smith',
-    'Mike Johnson',
-    'Emily Brown',
-    'David Lee',
-    'Sarah Wilson',
-    'Alex Thompson'
-  ];
+  //new patient states
+  const [newName, setNewName] = useState("");
+  const [newAge, setNewAge] = useState(0);
+  const [newGender, setNewGender] = useState("");
+  const [newRecentContact, setNewRecentContact] = useState(0);
 
-  const visitHistory = [
-    '2023-01-15: Routine Checkup',
-    '2022-11-20: Follow-up Visit',
-    '2022-08-05: Annual Physical Exam'
-  ];
+  const [newVisitHistory, setNewVisitHistory] = useState([]);
+  const [newVaxHistory, setNewVaxHistory] = useState([]);
+  const [newDiag, setNewDiag] = useState([]);
+  const [newPrescript, setNewPrescript] = useState([]);
+  const [newLabVisits, setNewLabVisits] = useState([]);
 
-  const vaccinations = [
-    'COVID-19 Vaccine (2021)',
-    'Flu Shot (2020)',
-    'Tetanus Booster (2019)'
-  ];
+  const patientsCollectionRef = collection(db, "patients");
 
-  const diagnoses = [
-    'Hypertension',
-    'Type 2 Diabetes',
-    'Seasonal Allergies'
-  ];
+  useEffect(() => {
+    const getPatientList = async () => {
+      try {
+        const data = await getDocs(patientsCollectionRef);
+        const filteredData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id
+        }));
+        setPatientList(filteredData);
+      } catch (err) {
 
-  const prescriptions = [
-    'Metformin - 500mg, once daily',
-    'Lisinopril - 10mg, once daily',
-    'Loratadine - 10mg, as needed'
-  ];
+      }
+    };
+    getPatientList();
+  }, [])
 
-  const labVisits = [
-    '2023-02-10: MRI Scan',
-    '2022-12-15: X-Ray',
-    '2022-09-20: Hemoglobin A1c Test'
-  ];
+  // adding a new patient to the database
+  const onAddPatient = async () => {
+    try {
+      await addDoc(patientsCollectionRef, {
+        name: newName,
+        age: newAge,
+        gender: newGender,
+        recentContact: newRecentContact,
+        visitHistory: newVisitHistory,
+        vaxHistory: newVaxHistory,
+        diag: newDiag,
+        prescript: newPrescript,
+        labVisits: newLabVisits,
+        //userId: auth?.currentUser?.uid,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
-  
-      <div className="app">
-        {/* Search Bar (Top Right Corner) */}
-        <div className="search-bar">
-          <input type="text" placeholder="Search patients..." />
-          <button>Search</button>
-        </div>
-        <h1>Patient Health Information</h1>
 
-        <PatientInfo name={patientName} age={patientAge} gender={patientGender} />
-        <HealthRecords
-          visitHistory={visitHistory}
-          vaccinations={vaccinations}
-          diagnoses={diagnoses}
-          prescriptions={prescriptions}
-          labVisits={labVisits}
+    <div className="records-container">
+      <div className="search-bar">
+        <input type="text" placeholder="Search patients..." />
+        <button>Search</button>
+      </div>
+      <h1>Patient Health Information</h1>
+      <button className="schedule-btn">Schedule Appointment</button>
+      <div>
+        {patientList.map((patient) => (
+          <div>
+            {/* display patient info from database */}
+            <h2>Patient Information</h2>
+            <p><strong>Name:</strong> {patient.name}</p>
+            <p><strong>Age:</strong> {patient.age}</p>
+            <p><strong>Gender:</strong> {patient.gender}</p>
+
+            {/* display patient health records from database */}
+            <h2>Health Records</h2>
+            <div>
+              <h3>Visit History</h3>
+              <ul>
+                {patient.visitHistory.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+
+              <h3>Vaccination History</h3>
+              <ul>
+                {(patient.vaxHistory).map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+
+              <h3>Current Diagnoses</h3>
+              <ul>
+                {(patient.diag).map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+
+              <h3>Prescriptions</h3>
+              <ul>
+                {(patient.prescript).map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+
+              <h3>Lab Visits</h3>
+              <ul>
+                {(patient.labVisits).map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+        ))}
+      </div>
+
+      {/* add a new patient */}
+      <div>
+
+        <h2>Add a New Patient</h2>
+        <p><strong>Patient Name: </strong> </p>
+        <input
+          placeholder="Name..."
+          onChange={(e) => setNewName(e.target.value)}
         />
 
-        {/* Patient List on the Right Side */}
-        <div className="patient-list">
-          <h2>Other Patients</h2>
-          <ul>
-            {otherPatients.map((name, index) => (
-              <li key={index}>{name}</li>
-            ))}
-          </ul>
-        </div>
+        <p><strong>Patient Age (Years): </strong></p>
+        <input
+          placeholder="Age.."
+          type="number"
+          onChange={(e) => setNewAge(Number(e.target.value))}
+        />
 
-        {/* Bottom Navigation Bar
-        <div className="bottom-nav">
-          <button >Dashboard</button>
-          <button>Patient General Info</button>
-          <button>Calendar & Appointments</button>
-          <button>Settings</button>
-        </div>*/}
-        </div>
-       
+        <p><strong>Gender: </strong></p>
+        <input
+          placeholder="Gender..."
+          onChange={(e) => setNewGender(e.target.value)}
+        />
+
+        <p><strong>Most Recent Contact with New Patient (YYMMDD): </strong></p>
+        <input
+          placeholder="YYMMDD.."
+          type="number"
+          onChange={(e) => setNewRecentContact(Number(e.target.value))}
+        />
+
+        <p><strong>Patient Visit History: </strong> </p>
+
+        <input
+          placeholder="YYYY-MM-DD: Visit..."
+          onChange={(e) => setNewVisitHistory(e.target.value)}
+        />
+
+        <p><strong>Patient Vaccination History: </strong> </p>
+        <input
+          placeholder="Vaccination (Year)..."
+          onChange={(e) => setNewVaxHistory(e.target.value)}
+        />
+
+        <p><strong>Patient Current Diagnoses: </strong> </p>
+        <input
+          placeholder="Diagnoses..."
+          onChange={(e) => setNewDiag(e.target.value)}
+        />
+
+        <p><strong>Patient Prescriptions: </strong> </p>
+        <input
+          placeholder="Prescription - dosage, frequency..."
+          onChange={(e) => setNewPrescript(e.target.value)}
+        />
+
+        <p><strong>Patient Lab Visits: </strong> </p>
+        <input
+          placeholder="YYYY-MM-DD: Visit..."
+          onChange={(e) => setNewLabVisits(e.target.value)}
+        />
+
+        <p><button onClick={onAddPatient}> Submit New Patient </button></p>
+      </div>
+
+      {/* text for spacing */}
+      <h1>Patient Health Information</h1>
+      <h1>Patient Health Information</h1>
+
+
+    </div>
+
   );
 }
 
