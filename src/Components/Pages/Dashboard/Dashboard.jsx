@@ -43,7 +43,6 @@ export function Dashboard(){
         <div>
             <div className="Board">
                 <h1 className="Header">Dashboard</h1>
-                <NaviBar user/>
                 <button className="Setting" onClick={openModal}><IoMdSettings/></button>
                 <Modal 
                     isOpen={modalIsOpen}
