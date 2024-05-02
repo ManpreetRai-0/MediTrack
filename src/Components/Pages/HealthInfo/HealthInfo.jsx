@@ -29,6 +29,8 @@ export function HealthInfo() {
   const [newPrescript, setNewPrescript] = useState([]);
   const [newLabVisits, setNewLabVisits] = useState([]);
 
+
+
   const patientsCollectionRef = collection(db, "patients");
 
   useEffect(() => {
@@ -159,34 +161,39 @@ export function HealthInfo() {
         />
 
         <p><strong>Patient Visit History: </strong> </p>
-
+        <p>Separate visits with commas </p>
         <input
-          placeholder="YYYY-MM-DD: Visit..."
-          onChange={(e) => setNewVisitHistory(e.target.value)}
+          type="text"
+          placeholder="YYYY-MM-DD: Visit.."
+          onChange={(e) => setNewVisitHistory(e.target.value.split(','))}
         />
 
         <p><strong>Patient Vaccination History: </strong> </p>
+        <p>Separate vaccinations with commas </p>
         <input
           placeholder="Vaccination (Year)..."
-          onChange={(e) => setNewVaxHistory(e.target.value)}
+          onChange={(e) => setNewVaxHistory(e.target.value.split(','))}
         />
 
         <p><strong>Patient Current Diagnoses: </strong> </p>
+        <p>Separate diagnoses with commas </p>
         <input
           placeholder="Diagnoses..."
-          onChange={(e) => setNewDiag(e.target.value)}
+          onChange={(e) => setNewDiag(e.target.value.split(','))}
         />
 
         <p><strong>Patient Prescriptions: </strong> </p>
+        <p>Separate presciptions with commas </p>
         <input
           placeholder="Prescription - dosage, frequency..."
-          onChange={(e) => setNewPrescript(e.target.value)}
+          onChange={(e) => setNewPrescript(e.target.value.split(','))}
         />
 
         <p><strong>Patient Lab Visits: </strong> </p>
+        <p>Separate visits with commas </p>
         <input
           placeholder="YYYY-MM-DD: Visit..."
-          onChange={(e) => setNewLabVisits(e.target.value)}
+          onChange={(e) => setNewLabVisits(e.target.value.split(','))}
         />
 
         <p><button onClick={onAddPatient}> Submit New Patient </button></p>
