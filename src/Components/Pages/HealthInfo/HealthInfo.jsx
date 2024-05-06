@@ -16,6 +16,8 @@ import {
 // Main App Component
 export function HealthInfo() {
   const [patientList, setPatientList] = useState([]);
+  const [patientToDelete, setPatientToDelete] = useState(null);
+  const [addMode, setAddMode] = useState(false); // track add mode
 
   //new patient states
   const [newName, setNewName] = useState("");
@@ -29,7 +31,18 @@ export function HealthInfo() {
   const [newPrescript, setNewPrescript] = useState([]);
   const [newLabVisits, setNewLabVisits] = useState([]);
 
+  //updated patient states
+  const [updateMode, setUpdateMode] = useState(false); // track update mode
+  const [updatedName, setUpdatedName] = useState("");
+  const [updatedAge, setUpdatedAge] = useState(0);
+  const [updatedGender, setUpdatedGender] = useState("");
+  const [updatedRecentContact, setUpdatedRecentContact] = useState(0);
 
+  const [updatedVisitHistory, setUpdatedVisitHistory] = useState([]);
+  const [updatedVaxHistory, setUpdatedVaxHistory] = useState([]);
+  const [updatedDiag, setUpdatedDiag] = useState([]);
+  const [updatedPrescript, setUpdatedPrescript] = useState([]);
+  const [updatedLabVisits, setUpdatedLabVisits] = useState([]);
 
   const patientsCollectionRef = collection(db, "patients");
 
@@ -48,6 +61,70 @@ export function HealthInfo() {
     };
     getPatientList();
   }, [])
+
+  // deleting a patient from the database
+  const deletePatient = async (id) => {
+    try {
+      await deleteDoc(doc(db, "patients", id));
+      setPatientList(patientList.filter(patient => patient.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const handleDeleteConfirmation = (patientId) => {
+    setPatientToDelete(patientId);
+    console.log("Patient to delete:", patientId);
+  }
+
+  const handleDeleteConfirmed = () => {
+    if (patientToDelete) {
+      deletePatient(patientToDelete);
+      setPatientToDelete(null); // reset patient to delete
+    }
+  }
+
+  //update patient info in database
+  const updateName = async (id) => {
+    const patientDoc = doc(db, "patients", id);
+    await updateDoc(patientDoc, { name: updatedName });
+  }
+  const updateAge = async (id) => {
+    const patientDoc = doc(db, "patients", id);
+    await updateDoc(patientDoc, { age: updatedAge });
+  }
+  const updateGender = async (id) => {
+    const patientDoc = doc(db, "patients", id);
+    await updateDoc(patientDoc, { gender: updatedGender });
+  }
+  const updateRecentContact = async (id) => {
+    const patientDoc = doc(db, "patients", id);
+    await updateDoc(patientDoc, { recentContact: updatedRecentContact });
+  }
+  const updateVisitHistory = async (id) => {
+    const patientDoc = doc(db, "patients", id);
+    await updateDoc(patientDoc, { visitHistory: updatedVisitHistory });
+  }
+  const updateVaxHistory = async (id) => {
+    const patientDoc = doc(db, "patients", id);
+    await updateDoc(patientDoc, { vaxHistory: updatedVaxHistory });
+  }
+  const updateDiag = async (id) => {
+    const patientDoc = doc(db, "patients", id);
+    await updateDoc(patientDoc, { diag: updatedDiag });
+  }
+  const updatePrescript = async (id) => {
+    const patientDoc = doc(db, "patients", id);
+    await updateDoc(patientDoc, { prescript: updatedPrescript });
+  }
+  const updateLabVisits = async (id) => {
+    const patientDoc = doc(db, "patients", id);
+    await updateDoc(patientDoc, { labVisits: updatedLabVisits });
+  }
+
+  const handleUpdateMode = () => {
+    setUpdateMode(prevMode => !prevMode); // toggle update mode
+  }
 
   // adding a new patient to the database
   const onAddPatient = async () => {
@@ -68,6 +145,11 @@ export function HealthInfo() {
       console.error(err);
     }
   }
+
+  const handleAddMode = () => {
+    setAddMode(prevMode => !prevMode); // toggle add mode
+  }
+
 
   return (
 
@@ -124,84 +206,189 @@ export function HealthInfo() {
                   <li key={index}>{item}</li>
                 ))}
               </ul>
+              <button onClick={() => handleDeleteConfirmation(patient.id)}>Delete Patient</button>
             </div>
-          </div>
 
+            {/* confirmation dialog */}
+            {patientToDelete && (
+              <div className="confirmation-dialog">
+                <p><strong>Are you sure you want to permanently delete this patient from the database?</strong></p>
+                <div>
+                  <button onClick={handleDeleteConfirmed}>Yes, I do want to delete this patient.</button>
+                  <button onClick={() => setPatientToDelete(null)}>No, I do not want to delete this patient.</button>
+                </div>
+              </div>
+            )}
+
+            {/* update patient info */}
+            <button onClick={handleUpdateMode}>
+              {updateMode ? "Cancel Update" : "Update Patient Info"}
+            </button>
+            {updateMode && (
+              <>
+                {/* update name */}
+                <p>
+                  <p><strong>Patient Name: </strong> </p>
+                  <input
+                    placeholder="Name..."
+                    onChange={(e) => setUpdatedName(e.target.value)}
+                  />
+                  <button onClick={() => updateName(patient.id)}>Update Patient Name</button>
+                </p>
+                {/* update age */}
+                <p><strong>Patient Age (Years): </strong></p>
+                <p>
+                  <input
+                    type="number"
+                    placeholder="Age..."
+                    onChange={(e) => setUpdatedAge(e.target.value)}
+                  />
+                  <button onClick={() => updateAge(patient.id)}>Update Patient Age</button>
+                </p>
+                {/* update gender */}
+                <p><strong>Gender: </strong></p>
+                <p>
+                  <input
+                    placeholder="Gender..."
+                    onChange={(e) => setUpdatedGender(e.target.value)}
+                  />
+                  <button onClick={() => updateGender(patient.id)}>Update Patient Gender</button>
+                </p>
+                {/* update recent contact */}
+                <p><strong>Most Recent Contact with New Patient (YYMMDD): </strong></p>
+                <p>
+                  <input
+                    type="number"
+                    placeholder="YYMMDD..."
+                    onChange={(e) => setUpdatedRecentContact(e.target.value)}
+                  />
+                  <button onClick={() => updateRecentContact(patient.id)}>Update Date of Most Recent Contact</button>
+                </p>
+                {/* update visit history */}
+                <p><strong>Patient Visit History: </strong> </p>
+                <p>Separate visits with commas </p>
+                <input
+                  type="text"
+                  placeholder="YYYY-MM-DD: Visit.."
+                  onChange={(e) => setUpdatedVisitHistory(e.target.value.split(','))}
+                />
+                <button onClick={() => updateVisitHistory(patient.id)}>Update Visit History</button>
+                {/* update vax history */}
+                <p><strong>Patient Vaccination History: </strong> </p>
+                <p>Separate vaccinations with commas </p>
+                <input
+                  placeholder="Vaccination (Year)..."
+                  onChange={(e) => setUpdatedVaxHistory(e.target.value.split(','))}
+                />
+                <button onClick={() => updateVaxHistory(patient.id)}>Update Vaccination History</button>
+                {/* update diagnoses */}
+                <p><strong>Patient Current Diagnoses: </strong> </p>
+                <p>Separate diagnoses with commas </p>
+                <input
+                  placeholder="Diagnoses..."
+                  onChange={(e) => setUpdatedDiag(e.target.value.split(','))}
+                />
+                <button onClick={() => updateDiag(patient.id)}>Update Diagnoses</button>
+                {/* update prescriptions */}
+                <p><strong>Patient Prescriptions: </strong> </p>
+                <p>Separate presciptions with commas </p>
+                <input
+                  placeholder="Prescription - dosage, frequency..."
+                  onChange={(e) => setUpdatedPrescript(e.target.value.split(','))}
+                />
+                <button onClick={() => updatePrescript(patient.id)}>Update Prescriptions</button>
+                {/* update lab visits */}
+                <p><strong>Patient Lab Visits: </strong> </p>
+                <p>Separate visits with commas </p>
+                <input
+                  placeholder="YYYY-MM-DD: Visit..."
+                  onChange={(e) => setUpdatedLabVisits(e.target.value.split(','))}
+                />
+                <button onClick={() => updateLabVisits(patient.id)}>Update Lab Visits</button>
+
+              </>
+            )}
+
+          </div>
         ))}
       </div>
 
       {/* add a new patient */}
-      <div>
+      <p>....................................................</p>
+      <button onClick={handleAddMode}>
+        {updateMode ? "Cancel Add" : "Add a New Patient"}
+      </button>
+      {addMode && (
+        <div>
+          <h2>Add a New Patient</h2>
+          <p><strong>Patient Name: </strong> </p>
+          <input
+            placeholder="Name..."
+            onChange={(e) => setNewName(e.target.value)}
+          />
 
-        <h2>Add a New Patient</h2>
-        <p><strong>Patient Name: </strong> </p>
-        <input
-          placeholder="Name..."
-          onChange={(e) => setNewName(e.target.value)}
-        />
+          <p><strong>Patient Age (Years): </strong></p>
+          <input
+            placeholder="Age.."
+            type="number"
+            onChange={(e) => setNewAge(Number(e.target.value))}
+          />
 
-        <p><strong>Patient Age (Years): </strong></p>
-        <input
-          placeholder="Age.."
-          type="number"
-          onChange={(e) => setNewAge(Number(e.target.value))}
-        />
+          <p><strong>Gender: </strong></p>
+          <input
+            placeholder="Gender..."
+            onChange={(e) => setNewGender(e.target.value)}
+          />
 
-        <p><strong>Gender: </strong></p>
-        <input
-          placeholder="Gender..."
-          onChange={(e) => setNewGender(e.target.value)}
-        />
+          <p><strong>Most Recent Contact with New Patient (YYMMDD): </strong></p>
+          <input
+            placeholder="YYMMDD.."
+            type="number"
+            onChange={(e) => setNewRecentContact(Number(e.target.value))}
+          />
 
-        <p><strong>Most Recent Contact with New Patient (YYMMDD): </strong></p>
-        <input
-          placeholder="YYMMDD.."
-          type="number"
-          onChange={(e) => setNewRecentContact(Number(e.target.value))}
-        />
+          <p><strong>Patient Visit History: </strong> </p>
+          <p>Separate visits with commas </p>
+          <input
+            type="text"
+            placeholder="YYYY-MM-DD: Visit.."
+            onChange={(e) => setNewVisitHistory(e.target.value.split(','))}
+          />
 
-        <p><strong>Patient Visit History: </strong> </p>
-        <p>Separate visits with commas </p>
-        <input
-          type="text"
-          placeholder="YYYY-MM-DD: Visit.."
-          onChange={(e) => setNewVisitHistory(e.target.value.split(','))}
-        />
+          <p><strong>Patient Vaccination History: </strong> </p>
+          <p>Separate vaccinations with commas </p>
+          <input
+            placeholder="Vaccination (Year)..."
+            onChange={(e) => setNewVaxHistory(e.target.value.split(','))}
+          />
 
-        <p><strong>Patient Vaccination History: </strong> </p>
-        <p>Separate vaccinations with commas </p>
-        <input
-          placeholder="Vaccination (Year)..."
-          onChange={(e) => setNewVaxHistory(e.target.value.split(','))}
-        />
+          <p><strong>Patient Current Diagnoses: </strong> </p>
+          <p>Separate diagnoses with commas </p>
+          <input
+            placeholder="Diagnoses..."
+            onChange={(e) => setNewDiag(e.target.value.split(','))}
+          />
 
-        <p><strong>Patient Current Diagnoses: </strong> </p>
-        <p>Separate diagnoses with commas </p>
-        <input
-          placeholder="Diagnoses..."
-          onChange={(e) => setNewDiag(e.target.value.split(','))}
-        />
+          <p><strong>Patient Prescriptions: </strong> </p>
+          <p>Separate presciptions with commas </p>
+          <input
+            placeholder="Prescription - dosage, frequency..."
+            onChange={(e) => setNewPrescript(e.target.value.split(','))}
+          />
 
-        <p><strong>Patient Prescriptions: </strong> </p>
-        <p>Separate presciptions with commas </p>
-        <input
-          placeholder="Prescription - dosage, frequency..."
-          onChange={(e) => setNewPrescript(e.target.value.split(','))}
-        />
+          <p><strong>Patient Lab Visits: </strong> </p>
+          <p>Separate visits with commas </p>
+          <input
+            placeholder="YYYY-MM-DD: Visit..."
+            onChange={(e) => setNewLabVisits(e.target.value.split(','))}
+          />
 
-        <p><strong>Patient Lab Visits: </strong> </p>
-        <p>Separate visits with commas </p>
-        <input
-          placeholder="YYYY-MM-DD: Visit..."
-          onChange={(e) => setNewLabVisits(e.target.value.split(','))}
-        />
-
-        <p><button onClick={onAddPatient}> Submit New Patient </button></p>
-      </div>
-
+          <p><button onClick={onAddPatient}> Submit New Patient </button></p>
+        </div>
+      )}
       {/* text for spacing */}
-      <h1>Patient Health Information</h1>
-      <h1>Patient Health Information</h1>
+      <h1>....................................................</h1>
+      <h1>....................................................</h1>
 
 
     </div>
