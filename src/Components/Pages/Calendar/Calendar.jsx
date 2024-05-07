@@ -81,5 +81,3 @@ export const Calendar = () => {
 
   return renderCalendar();
 };
-
-//export default Calendar;

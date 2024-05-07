@@ -1,8 +1,9 @@
 .calendar {
+    
     font-family: Arial, sans-serif;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 300px;
+    width: 350px;
   }
   
   .calendar-header {
@@ -43,4 +44,7 @@
   .today {
     background-color: #ffc107;
   }
-  
+
+  .calendar-day:hover{
+    background-color: #bababa;
+  }  
