@@ -206,7 +206,9 @@ export function HealthInfo() {
                   <li key={index}>{item}</li>
                 ))}
               </ul>
-              <button onClick={() => handleDeleteConfirmation(patient.id)}>Delete Patient</button>
+              <div className="delete">
+                <button onClick={() => handleDeleteConfirmation(patient.id)}>Delete Patient</button>
+              </div>
             </div>
 
             {/* confirmation dialog */}
@@ -221,9 +223,11 @@ export function HealthInfo() {
             )}
 
             {/* update patient info */}
-            <button onClick={handleUpdateMode}>
-              {updateMode ? "Cancel Update" : "Update Patient Info"}
-            </button>
+            <div className="update">
+              <button onClick={handleUpdateMode}>
+                {updateMode ? "Cancel Update" : "Update Patient Info"}
+              </button>
+            </div>
             {updateMode && (
               <>
                 {/* update name */}
@@ -315,9 +319,11 @@ export function HealthInfo() {
 
       {/* add a new patient */}
       <p>....................................................</p>
-      <button onClick={handleAddMode}>
-        {updateMode ? "Cancel Add" : "Add a New Patient"}
-      </button>
+      <div className="add">
+        <button onClick={handleAddMode}>
+          {addMode ? "Cancel Add" : "Add a New Patient"}
+        </button>
+        </div>
       {addMode && (
         <div>
           <h2>Add a New Patient</h2>
@@ -381,10 +387,13 @@ export function HealthInfo() {
           <input
             placeholder="YYYY-MM-DD: Visit..."
             onChange={(e) => setNewLabVisits(e.target.value.split(','))}
+            
           />
-
+ <div className="add">
           <p><button onClick={onAddPatient}> Submit New Patient </button></p>
         </div>
+        </div>
+        
       )}
       {/* text for spacing */}
       <h1>....................................................</h1>

@@ -21,6 +21,11 @@ export function NaviBar(user){
         user ? navigate("healthInfo") : alert('No User');
     }
 
+    function handleCalendar(){
+        user ? navigate("calendar") : alert('No User');
+    }
+
+
     
 
     return(
@@ -31,8 +36,8 @@ export function NaviBar(user){
             (
             <div className="bottom-nav">
                 <button onClick={handleDash}>Dashboard</button>
-                <button onClick={handlePatientInfo}>Patient General Info</button>
-                <button>Calendar & Appointments</button>
+                <button onClick={handlePatientInfo}>Patient Info</button>
+                <button onClick={handleCalendar}>Calendar & Appointments</button>
                 <button>Settings</button>
                 <button className="NaviMenu" onClick={handleBar}><TiThMenu/></button>
             </div>

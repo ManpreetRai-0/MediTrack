@@ -77,27 +77,56 @@ li {
   outline: none;
 }
 
-
-/*bottom navigation bar styles*/
-/*
-//moved this code to NaviBar
-
-.bottom-nav {
-  display: flex;
-  justify-content: space-around;
-  padding: 20px;
-  background-color: #535353;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+/*delete button styles*/
+.delete button {
+  padding: 8px 20px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  background-color: #ffd2d2;
+  color: #000000;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.bottom-nav button:hover {
-  background-color: #4da3ff;
-
+.delete button:hover {
+  background-color: #ff2525;
+  color: #ffffff;
 }
-*/
+
+/*update button styles*/
+.update button {
+  padding: 8px 20px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  background-color: #fff1b4;
+  color: #000000;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.update button:hover {
+  background-color: #ffe925;
+  color: #000000;
+}
+
+/*add button styles*/
+.add button {
+  padding: 8px 20px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  background-color: #d9ffbf;
+  color: #000000;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add button:hover {
+  background-color: #09ff00;
+  color: #000000;
+}
 
 
 /*search bar styles*/
