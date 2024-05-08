@@ -53,6 +53,9 @@ export const Calendar = () => {
     const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
     return (
+      <><div className="header"> 
+      <h1 className="header">Calendar & Appointments</h1>
+      </div>
       <div className="calendar">
         <div className="calendar-header">
           <button onClick={handlePrevMonth}>&#8249;</button>
@@ -75,7 +78,7 @@ export const Calendar = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div></>
     );
   };
 

@@ -1,3 +1,13 @@
+.header{
+  font-family: Verdana, sans-serif;
+  text-align: center;
+  font-size: 30px;
+  color: #ffffff;
+  text-shadow:
+    -3px 3px 0 #000000;
+  background-color: rgb(14, 114, 121);
+}
+
 body {
   font-family: Arial, sans-serif;
   padding: 20px;
@@ -23,19 +33,25 @@ body {
 }
 
 h1 {
+  background-color: rgb(169, 249, 255);
   font-size: 28px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 22px;
   margin-bottom: 12px;
-  margin-top: 40px;
 }
 
 h3 {
   font-size: 20px;
-  margin-bottom: 8px;
+  margin-bottom: 20px;
+}
+
+h4 {
+  background-color: rgb(219, 253, 255);
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 
 p {
@@ -43,7 +59,7 @@ p {
 }
 
 ul {
-  list-style-type: disc;
+  list-style-type: circle;
   margin-left: 20px;
   margin-bottom: 20px;
 }
@@ -51,6 +67,7 @@ ul {
 li {
   margin-bottom: 20px;
 }
+
 
 /*header styles*/
 .info-container {
@@ -76,6 +93,12 @@ li {
   border: 1px solid #ccc;
   outline: none;
 }
+
+/* name styles */
+.name:hover{
+  color:#5c8991;
+}
+
 
 /*delete button styles*/
 .delete button {
@@ -121,11 +144,16 @@ li {
   border: 1px solid #000000;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .add button:hover {
   background-color: #09ff00;
   color: #000000;
+}
+
+.inputVal{
+  color: red;
 }
 
 
@@ -137,24 +165,9 @@ li {
   margin-bottom: 20px;
 
 }
-
 .search-bar input {
   padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px;
+  border-radius: 5px 5px 5px 5px;
   outline: none;
-}
-
-.search-bar button {
-  padding: 8px 12px;
-  background-color: #007bff;
-  color: #ffffff;
-  border: 1px solid #007bff;
-  border-radius: 0 5px 5px 0;
-  cursor: pointer;
-}
-
-.search-bar button:hover {
-  background-color: #4da3ff;
-  border-color: #4da3ff;
 }
