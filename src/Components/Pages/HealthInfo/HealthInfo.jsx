@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaSearch } from "react-icons/fa";
 import './HealthInfo.css';
 import { db } from "../Config/firebase";
 import {
@@ -12,6 +13,7 @@ import {
 
 // Main App Component
 export function HealthInfo() {
+  // patient states
   const [patientList, setPatientList] = useState([]);
   const [filteredPatientList, setFilteredPatientList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,9 +21,11 @@ export function HealthInfo() {
   const [addMode, setAddMode] = useState(false);
   const [validationError, setValidationError] = useState("");
 
+  // new patient states
   const [newName, setNewName] = useState("");
   const [newAge, setNewAge] = useState(0);
   const [newGender, setNewGender] = useState("");
+  const [newContactInfo, setNewContactInfo] = useState("");
   const [newRecentContact, setNewRecentContact] = useState(0);
   const [newVisitHistory, setNewVisitHistory] = useState([]);
   const [newVaxHistory, setNewVaxHistory] = useState([]);
@@ -29,10 +33,12 @@ export function HealthInfo() {
   const [newPrescript, setNewPrescript] = useState([]);
   const [newLabVisits, setNewLabVisits] = useState([]);
 
+  // updated patient states
   const [updateMode, setUpdateMode] = useState(false);
   const [updatedName, setUpdatedName] = useState("");
   const [updatedAge, setUpdatedAge] = useState(0);
   const [updatedGender, setUpdatedGender] = useState("");
+  const [updatedContactInfo, setUpdatedContactInfo] = useState("");
   const [updatedRecentContact, setUpdatedRecentContact] = useState(0);
   const [updatedVisitHistory, setUpdatedVisitHistory] = useState([]);
   const [updatedVaxHistory, setUpdatedVaxHistory] = useState([]);
@@ -44,6 +50,7 @@ export function HealthInfo() {
 
   const patientsCollectionRef = collection(db, "patients");
 
+  // get patient list
   useEffect(() => {
     const getPatientList = async () => {
       try {
@@ -60,6 +67,7 @@ export function HealthInfo() {
     getPatientList();
   }, [])
 
+  // delete patient function
   const deletePatient = async (id) => {
     try {
       await deleteDoc(doc(db, "patients", id));
@@ -80,9 +88,10 @@ export function HealthInfo() {
     }
   }
 
+  // update existing patient info
   const updateName = async (id) => {
     if (!updatedName) {
-      setValidationError("You must fill out all fields before submitting.");
+      setValidationError("No input detected. Unable to submit.");
       return;
     }
     const patientDoc = doc(db, "patients", id);
@@ -90,7 +99,7 @@ export function HealthInfo() {
   }
   const updateAge = async (id) => {
     if (!updatedAge) {
-      setValidationError("You must fill out all fields before submitting.");
+      setValidationError("No input detected. Unable to submit.");
       return;
     }
     const patientDoc = doc(db, "patients", id);
@@ -98,15 +107,23 @@ export function HealthInfo() {
   }
   const updateGender = async (id) => {
     if (!updatedGender) {
-      setValidationError("You must fill out all fields before submitting.");
+      setValidationError("No input detected. Unable to submit.");
       return;
     }
     const patientDoc = doc(db, "patients", id);
     await updateDoc(patientDoc, { gender: updatedGender });
   }
+  const updateContactInfo = async (id) => {
+    if (!updatedContactInfo) {
+      setValidationError("No input detected. Unable to submit.");
+      return;
+    }
+    const patientDoc = doc(db, "patients", id);
+    await updateDoc(patientDoc, { contact: updatedContactInfo });
+  }
   const updateRecentContact = async (id) => {
     if (!updatedRecentContact) {
-      setValidationError("You must fill out all fields before submitting.");
+      setValidationError("No input detected. Unable to submit.");
       return;
     }
     const patientDoc = doc(db, "patients", id);
@@ -114,7 +131,7 @@ export function HealthInfo() {
   }
   const updateVisitHistory = async (id) => {
     if (!updatedVisitHistory) {
-      setValidationError("You must fill out all fields before submitting.");
+      setValidationError("No input detected. Unable to submit.");
       return;
     }
     const patientDoc = doc(db, "patients", id);
@@ -122,7 +139,7 @@ export function HealthInfo() {
   }
   const updateVaxHistory = async (id) => {
     if (!updatedVaxHistory) {
-      setValidationError("You must fill out all fields before submitting.");
+      setValidationError("No input detected. Unable to submit.");
       return;
     }
     const patientDoc = doc(db, "patients", id);
@@ -130,7 +147,7 @@ export function HealthInfo() {
   }
   const updateDiag = async (id) => {
     if (!updatedDiag) {
-      setValidationError("You must fill out all fields before submitting.");
+      setValidationError("No input detected. Unable to submit.");
       return;
     }
     const patientDoc = doc(db, "patients", id);
@@ -138,7 +155,7 @@ export function HealthInfo() {
   }
   const updatePrescript = async (id) => {
     if (!updatedPrescript) {
-      setValidationError("You must fill out all fields before submitting.");
+      setValidationError("No input detected. Unable to submit.");
       return;
     }
     const patientDoc = doc(db, "patients", id);
@@ -146,7 +163,7 @@ export function HealthInfo() {
   }
   const updateLabVisits = async (id) => {
     if (!updatedLabVisits) {
-      setValidationError("You must fill out all fields before submitting.");
+      setValidationError("No input detected. Unable to submit.");
       return;
     }
     const patientDoc = doc(db, "patients", id);
@@ -157,10 +174,12 @@ export function HealthInfo() {
     setUpdateMode(prevMode => !prevMode);
   }
 
+  // add a new patient function
   const onAddPatient = async () => {
     if (!newName || 
       !newAge || 
       !newGender || 
+      !newContactInfo || 
       !newRecentContact || 
       !newVisitHistory || 
       !newVaxHistory || 
@@ -175,12 +194,13 @@ export function HealthInfo() {
         name: newName,
         age: newAge,
         gender: newGender,
+        contact: newContactInfo,
         recentContact: newRecentContact,
         visitHistory: newVisitHistory,
         vaxHistory: newVaxHistory,
         diag: newDiag,
         prescript: newPrescript,
-        labVisits: newLabVisits,
+        labVisits: newLabVisits
       });
     } catch (err) {
       console.error(err);
@@ -191,6 +211,7 @@ export function HealthInfo() {
     setAddMode(prevMode => !prevMode);
   }
 
+  // search patients function
   const handleSearchInputChange = (e) => {
     setSearchQuery(e.target.value);
   }
@@ -220,24 +241,30 @@ export function HealthInfo() {
 
   return (
     <div className="records-container">
-      <h1 className="header"> Patient Health Information </h1>
+      {/* display header */} 
+      <div class = "header"> 
+      <h1 className="header"> Patient Health Information </h1> 
+      </div>
+      {/* display search bar */}
       <div className="search-bar">
-        <input type="text" placeholder="Search patients..." value={searchQuery} onChange={handleSearchInputChange} />
+      <button><FaSearch /></button>  
+        <input type="text" placeholder="Search patients by name..." value={searchQuery} onChange={handleSearchInputChange} />
       </div>
       {/* <button className="schedule-btn">Schedule Appointment</button> */}
       <h1><strong>Patient List</strong></h1>
       <h2>Click on a patient's name to view their information.</h2>
       <div>
+        {/* display patient list */}
         {filteredPatientList.map((patient) => (
           <div key={patient.id}>
             <p><span className="patient-name" onClick={() => togglePatientInfo(patient)}>
               <div class="name"> <h4> <strong> ✧ {patient.name} </strong> </h4></div>
             </span></p>
             {selectedPatient && selectedPatient.id === patient.id &&
-
               <div>
                 <p><strong>Age:</strong> {patient.age}</p>
                 <p><strong>Gender:</strong> {patient.gender}</p>
+                <p><strong>Contact Info:</strong> {patient.contact}</p>
                 <div>
                   <h3>Visit History</h3>
                   <ul>
@@ -269,6 +296,7 @@ export function HealthInfo() {
                       <li key={index}>{item}</li>
                     ))}
                   </ul>
+                  {/* display delete patient option */}
                   <div className="delete">
                     <button onClick={() => handleDeleteConfirmation(patient.id)}>Delete Patient</button>
                   </div>
@@ -282,6 +310,7 @@ export function HealthInfo() {
                     </div>
                   </div>
                 }
+                {/* display update patient option */}
                 <div className="update">
                   <button onClick={handleUpdateMode}>
                     {updateMode ? "Cancel Update" : "Update Patient Info"}
@@ -313,6 +342,14 @@ export function HealthInfo() {
                         onChange={(e) => setUpdatedGender(e.target.value)}
                       />
                       <button onClick={() => updateGender(patient.id)}>Update Patient Gender</button>
+                    </p>
+                    <p><strong>Contact Info: </strong></p>
+                    <p>
+                      <input
+                        placeholder="Email or phone number..."
+                        onChange={(e) => setUpdatedContactInfo(e.target.value)}
+                      />
+                      <button onClick={() => updateContactInfo(patient.id)}>Update Patient Contact Info</button>
                     </p>
                     <p><strong>Most Recent Contact with New Patient (YYMMDD): </strong></p>
                     <p>
@@ -359,7 +396,6 @@ export function HealthInfo() {
                       onChange={(e) => setUpdatedLabVisits(e.target.value.split(','))}
                     />
                     <button onClick={() => updateLabVisits(patient.id)}>Update Lab Visits</button>
-                    
                   </>
                 }
               </div>
@@ -368,7 +404,7 @@ export function HealthInfo() {
         ))}
       </div>
       <p>.................................................................................</p>
-      
+      {/* display add a new patient option */}
       <div className="add">
         <button onClick={handleAddMode}>
           {addMode ? "Cancel Add" : "Add a New Patient"}
@@ -392,6 +428,11 @@ export function HealthInfo() {
           <input
             placeholder="Gender..."
             onChange={(e) => setNewGender(e.target.value)}
+          />
+           <p><strong>Contact Info: </strong></p>
+          <input
+            placeholder="Email or phone number..."
+            onChange={(e) => setNewContactInfo(e.target.value)}
           />
           <p><strong>Most Recent Contact with New Patient (YYMMDD): </strong></p>
           <input
@@ -436,9 +477,9 @@ export function HealthInfo() {
           </div>
         </div>
       )}
+      {/* spacer text */}
       <p>.................................................................................</p>
       <p>.................................................................................</p>
-  
     </div>
   );
 }
