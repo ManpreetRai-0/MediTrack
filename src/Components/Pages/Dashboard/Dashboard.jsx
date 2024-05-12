@@ -5,9 +5,15 @@ import './Dashboard.css';
 import { IoMdSettings } from "react-icons/io";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
-import { NaviBar } from "../NaviBar/NaviBar"
+
+import { signOut } from 'firebase/auth';
+import { auth } from '../Config/firebase';
+import { useNavigate } from 'react-router-dom';
+
 
 export function Dashboard(){
+    const navigate = useNavigate();
+
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
     const [currTime, setCurrTime] = useState(new Date());
@@ -36,7 +42,12 @@ export function Dashboard(){
     }
 
     function LogOut(){
-        alert("Logging out");
+        signOut(auth).then(() => {
+            alert("Logging out");
+            navigate("/");
+        }).catch((error) =>{
+            alert("logout Fail");    
+        });
     }
 
     return(

@@ -6,22 +6,69 @@ import './LoginForm.css';
 import {MdEmail} from "react-icons/md";
 import {RiLockPasswordFill} from "react-icons/ri";
 import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../Config/firebase';
+
 //import user_icon from '../Assets/profile.png';
 //import email_icon from '../Assets/email.png';
 //import lock_icon from '../Assets/lock.png';
 
+
 export function LoginForm() {
-
-    const [username, setUsername] = useState('username');
-    const [password, setPassword] = useState('password');
-    const [user, setUser] = useState(false);
-
     const navigate = useNavigate();
-    const handleClick = () => {
-        alert('No User');
-        setUser(true);
-        user ? navigate("/navi") : alert('No User');;
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [signedin, setSignedin] = useState(false);
+    const [signinFail, setSigninFail] = useState('')
+
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    
+    //const userCredentials;
+
+    function handlePassword(){
+        sendPasswordResetEmail(auth, email)
+        .then(() => {
+
+        }).catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        });
     }
+
+    function resetError (){
+        setEmailError('');
+        setPasswordError('');
+    }
+
+    async function handleSignin(){
+        //resetError();
+        try{
+            await signInWithEmailAndPassword(auth, email, password).then((userCredentials) =>{
+                const user = userCredentials
+                navigate("/navi/dash-board");
+                signedin(true);
+            });
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            switch(errorCode){
+                case "auth/invalid-email":
+                case "auth/user-disabled":
+                case "auth/user-not-found":
+                    setEmailError(errorMessage);
+                    break;
+                case "auth/wrong-password":
+                    setPasswordError(errorMessage);
+                    break;
+            }
+            setSigninFail(true);
+            //userCredentials.user ? navigate("/navi/dash-board") : alert('No User');
+        }
+    }
+
+
 
 
     return (
@@ -36,22 +83,27 @@ export function LoginForm() {
                     <div className="input">
                         <MdEmail />
                         <input type="email"
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
+                        placeholder="Email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                         />
                     </div>
-                    <div className="input">
+                    <div className="input" >
                         <RiLockPasswordFill />
                         <input type="password"
+                        placeholder="Password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         />
                     </div>
                 </div>
-                <div className="forgot-password">Lost Password? <button>Click Here!</button></div>
-                <div className="submit-container">
-                    <div className="Submit"><button className="Submit-Button" onClick={handleClick} >Login</button></div>
-                    {user && <div className="submit"><button>Sign Up</button></div>}
+                <div className="LogButton">
+                    <div className="submit-container">
+                        <div className="Submit"><button className="Submit-Button" onClick={handleSignin} >Login</button></div>
+                        <div className="forgot-signup">
+                            {signinFail && <button onClick={handlePassword}>Lost Password?</button>}
+                        </div>
+                    </div>
                 </div>
             
             </div>

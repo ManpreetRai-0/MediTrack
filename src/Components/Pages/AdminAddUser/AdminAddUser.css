@@ -1,0 +1,19 @@
+.AddContainer{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    margin: auto;
+    width: 350px;
+}
+.AddIn{
+    text-align: left;
+    padding-bottom: 5px;
+}
+.RoleSelect{
+    text-align: left;
+    padding-top: 10px;
+}
+.Submit{
+    text-align: center;
+}

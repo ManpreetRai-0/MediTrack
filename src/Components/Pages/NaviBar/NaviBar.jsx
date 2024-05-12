@@ -4,7 +4,9 @@ import './NaviBar.css';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { TiThMenu } from "react-icons/ti";
 
-export function NaviBar(user){
+
+export function NaviBar(){
+    const navigate = useNavigate();
 
     const [barVisable, setBarVisable] = useState(true);
     
@@ -12,17 +14,16 @@ export function NaviBar(user){
         setBarVisable(!barVisable);
     }
 
-    const navigate = useNavigate();
     function handleDash(){
-        user ? navigate("dash-board") : alert('No User');
+        navigate("dash-board");
     }
 
     function handlePatientInfo(){
-        user ? navigate("healthInfo") : alert('No User');
+        navigate("healthInfo");
     }
 
     function handleCalendar(){
-        user ? navigate("calendar") : alert('No User');
+        navigate("calendar");
     }
 
 
