@@ -164,7 +164,7 @@ export const Calendar = () => {
             onRequestClose={closeModal}
             contentLabel="Example"
           >
-            <RenderDay user={user} selectedDay={selectedDay} selectedMonth={selectedMonth} selectedYear={selectedYear}/>
+            <RenderDay user={user} selectedDay={selectedDay} selectedMonth={selectedMonth+1} selectedYear={selectedYear}/>
             <button onClick={closeModal}>Close</button>
           </Modal>
         </>

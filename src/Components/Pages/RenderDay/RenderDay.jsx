@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import './RenderDay.css';
 import {
     getDocs,
+    getDoc,
     addDoc,
     setDoc,
     deleteDoc,
@@ -23,12 +24,14 @@ import { auth } from '../Config/firebase';
 import { useNavigate } from 'react-router-dom';
 
 
-
+//my edit
 
 export function RenderDay({user, selectedDay, selectedMonth, selectedYear}){
     
-
-    const [doctor, setDoctor] = useState('');
+    const userUid = [
+        '', '', '', '', '', '','', '', '','', '', '','', '', '','', '', '','', '', '','', '', '','', '', '','', '', '','', '', '','', '', '','', '', '','', '', '','', '', '','', '', ''
+      ];
+    const [doctor, setDoctor] = useState([]);
     const [querySnapshot, setQuerySnapshot] = useState('');
     const [doctorFound, setDoctorFound] = useState(true);
     //const [currentDate, setCurrentDate] = useState('');
@@ -38,54 +41,60 @@ export function RenderDay({user, selectedDay, selectedMonth, selectedYear}){
     const [updatedRecentContact, setUpdatedRecentContact] = useState(0);
     const [updatedVisitHistory, setUpdatedVisitHistory] = useState([]);
 
-    async function fetchDoctor(userId) {
+    const usersCollectionRef = collection(db, user);
+    const currentDate = (selectedDay+'.'+selectedMonth+'.'+selectedYear);
+
+    const addUser = async () => { 
+        const document = await setDoc(doc(usersCollectionRef, currentDate ),{
+             userUID: userUid
+        });
+    }
+
+    async function fetchDoctor() {
         try {
-            const documentSnapshot = await db.collection('doctors').doc(userId).get();
-            if (documentSnapshot.exists) {
+            const documentSnapshot = await getDoc(doc(usersCollectionRef, currentDate));
+            if (documentSnapshot.exists()) {
                 const doctorData = documentSnapshot.data();
                 setDoctor(doctorData);
             } else {
-                setDoctorFound(false);
-                setDoctor(null);
+                addUser();
             }
         } catch (error) {
             setDoctorFound(false);
             console.error("Error fetching doctor:", error);
             // Handle error gracefully
         }
-    }
+    };
 
     const [newName, setNewName] = useState("");
     const [newGrade, setNewGrade] = useState("");
     const [newRole, setNewRole] = useState("");
     const [newHours, setNewHours] = useState("");
 
-    
-    const usersCollectionRef = collection(db, user);
-    const currentDate = (selectedDay+'.'+selectedMonth+'.'+selectedYear);
-    const addUser = async (userId) => { 
-        const document = await setDoc(doc(usersCollectionRef, currentDate ),{
-            name: newName,
-            grade: Number(newGrade),
-            role: newRole,
-            hours: Number(newHours),
-        });
-    }
 
     return (
         <>
             <div>Hello: {user}</div>
             <div>Day: {selectedMonth}/{selectedDay}/{selectedYear}</div>
             <div>{currentDate}</div>
-            <div><button onClick={() => fetchDoctor(user)}>Get Doctor</button></div>
-            <div><button onClick={() => addUser(user)}>Add User</button></div>
+            <div><button onClick={() => fetchDoctor()}>Get Doctor</button></div>
+            <div><button onClick={() => addUser()}>Add User</button></div>
 
-            {doctorFound? <div>found</div> : <div>not found</div>}
+            {doctor.map(doctor => (
+          <div
+            /*onClick={() => handleDayClick(doctor)}
+            key={day}*/
+            className={'today'}
+          >
+            {doctor}
+          </div>
+          ))}
+            {/*{doctorFound? <div>found</div> : <div>not found</div>}
             {doctor && (
                 <div>
                     Doctor Name: {doctor.name}
                 </div>
-            )}
+            )}*/}
         </>
     );
 }
