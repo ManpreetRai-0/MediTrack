@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaRegUser } from "react-icons/fa";
+import { TiDelete } from "react-icons/ti";
+import { IoPersonAddOutline } from "react-icons/io5";
 import './HealthInfo.css';
 import { db } from "../Config/firebase";
 import {
@@ -66,6 +68,8 @@ export function HealthInfo() {
     };
     getPatientList();
   }, [])
+
+
 
   // delete patient function
   const deletePatient = async (id) => {
@@ -176,15 +180,15 @@ export function HealthInfo() {
 
   // add a new patient function
   const onAddPatient = async () => {
-    if (!newName || 
-      !newAge || 
-      !newGender || 
-      !newContactInfo || 
-      !newRecentContact || 
-      !newVisitHistory || 
-      !newVaxHistory || 
-      !newDiag|| 
-      !newPrescript || 
+    if (!newName ||
+      !newAge ||
+      !newGender ||
+      !newContactInfo ||
+      !newRecentContact ||
+      !newVisitHistory ||
+      !newVaxHistory ||
+      !newDiag ||
+      !newPrescript ||
       !newLabVisits) {
       setValidationError("You must fill out all fields before submitting.");
       return;
@@ -219,9 +223,7 @@ export function HealthInfo() {
   const filterPatientList = () => {
     const filteredPatients = patientList.filter(patient => {
       return (
-        patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        patient.age.toString().includes(searchQuery) ||
-        patient.gender.toLowerCase().includes(searchQuery.toLowerCase())
+        patient.name.toLowerCase().includes(searchQuery.toLowerCase()) 
       );
     });
     setFilteredPatientList(filteredPatients);
@@ -241,13 +243,13 @@ export function HealthInfo() {
 
   return (
     <div className="records-container">
-      {/* display header */} 
-      <div class = "header"> 
-      <h1 className="header"> Patient Health Information </h1> 
+      {/* display header */}
+      <div class="header">
+        <h1 className="header"> Patient Health Information </h1>
       </div>
       {/* display search bar */}
       <div className="search-bar">
-      <button><FaSearch /></button>  
+        <button><FaSearch /></button>
         <input type="text" placeholder="Search patients by name..." value={searchQuery} onChange={handleSearchInputChange} />
       </div>
       {/* <button className="schedule-btn">Schedule Appointment</button> */}
@@ -258,7 +260,7 @@ export function HealthInfo() {
         {filteredPatientList.map((patient) => (
           <div key={patient.id}>
             <p><span className="patient-name" onClick={() => togglePatientInfo(patient)}>
-              <div class="name"> <h4> <strong> ✧ {patient.name} </strong> </h4></div>
+              <div class="name"> <h4> <strong> <FaRegUser /> {patient.name} </strong> </h4></div>
             </span></p>
             {selectedPatient && selectedPatient.id === patient.id &&
               <div>
@@ -298,15 +300,19 @@ export function HealthInfo() {
                   </ul>
                   {/* display delete patient option */}
                   <div className="delete">
-                    <button onClick={() => handleDeleteConfirmation(patient.id)}>Delete Patient</button>
+                    <button onClick={() => handleDeleteConfirmation(patient.id)}><TiDelete />Delete Patient</button>
                   </div>
                 </div>
                 {patientToDelete &&
                   <div className="confirmation-dialog">
                     <p><strong>Are you sure you want to permanently delete this patient from the database?</strong></p>
                     <div>
-                      <button onClick={handleDeleteConfirmed}>Yes, I do want to delete this patient.</button>
-                      <button onClick={() => setPatientToDelete(null)}>No, I do not want to delete this patient.</button>
+                      <div className="yes-delete">
+                        <button onClick={handleDeleteConfirmed}><strong>YES</strong>, I do want to delete this patient.</button>
+                      </div>
+                      <div className="no-delete">
+                        <button onClick={() => setPatientToDelete(null)}><strong>NO</strong>, I do not want to delete this patient.</button>
+                      </div>
                     </div>
                   </div>
                 }
@@ -406,8 +412,8 @@ export function HealthInfo() {
       <p>.................................................................................</p>
       {/* display add a new patient option */}
       <div className="add">
-        <button onClick={handleAddMode}>
-          {addMode ? "Cancel Add" : "Add a New Patient"}
+        <button onClick={handleAddMode}><IoPersonAddOutline />
+          {addMode ? " Cancel Add" : " Add a New Patient"}
         </button>
       </div>
       {addMode && (
@@ -429,7 +435,7 @@ export function HealthInfo() {
             placeholder="Gender..."
             onChange={(e) => setNewGender(e.target.value)}
           />
-           <p><strong>Contact Info: </strong></p>
+          <p><strong>Contact Info: </strong></p>
           <input
             placeholder="Email or phone number..."
             onChange={(e) => setNewContactInfo(e.target.value)}
@@ -472,7 +478,7 @@ export function HealthInfo() {
             onChange={(e) => setNewLabVisits(e.target.value.split(','))}
           />
           <div className="add">
-          {validationError && <p className="inputVal">{validationError}</p>}
+            {validationError && <p className="inputVal">{validationError}</p>}
             <p><button onClick={onAddPatient}> Submit New Patient </button></p>
           </div>
         </div>
