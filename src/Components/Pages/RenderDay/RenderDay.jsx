@@ -80,15 +80,7 @@ export function RenderDay({user, selectedDay, selectedMonth, selectedYear}){
             <div><button onClick={() => fetchDoctor()}>Get Doctor</button></div>
             <div><button onClick={() => addUser()}>Add User</button></div>
 
-            {doctor.map(doctor => (
-          <div
-            /*onClick={() => handleDayClick(doctor)}
-            key={day}*/
-            className={'today'}
-          >
-            {doctor}
-          </div>
-          ))}
+            
             {/*{doctorFound? <div>found</div> : <div>not found</div>}
             {doctor && (
                 <div>
