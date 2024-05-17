@@ -7,21 +7,19 @@
 
 3. Install VSCode here: https://code.visualstudio.com/
 
-4. For ease of use, consider installing GitHub Desktop version to access the repository.
+4. For ease of use, consider installing GitHub Desktop version to access the repository, it can be installed here: https://desktop.github.com/.
 
-5. Using GitHub, access the repository and download the project's most recent version from the master branch
+5. Using GitHub, access the repository and download the project's most recent version from the master branch.
 
-6. Install the repository to VSCode
+6. Install the repository to VSCode, and within vscode, navigate to file->open file and then file the folder containing the project files.
 
-7. Open the VSCode terminal at the bottom of the window and type in "npx create new-react-app" to install react. Use the arrow keys to select "React" then select "Javascript"
+7. Open the VSCode terminal at the bottom of the window and type in "cd [file path to the project folder]", to navigate to folder containing all source code
 
-8. Open the terminal and type "cd [file path to the project folder]". This will open the project folder.
+8. Using the terminal again, type in `npm install`. THIS WILL INSTALL ALL DEPENDENCIES REQUIRED TO RUN THE APP. RUN THIS FIRST.
 
-9. Using the terminal again, type in `npm install`. THIS WILL INSTALL ALL DEPENDENCIES REQUIRED TO RUN THE APP. RUN THIS FIRST.
+9. Using the terminal one last time, type in `npm start` or `npm run build`. Either one will run the web app. Start will create an uncompiled version and Build will create a compiled version which can be run on a web server. Once you press enter it should automatically open the app in your prefered/default browser.
 
-10. Using the terminal one last time, type in `npm start` or `npm run build`. Either one will run the web app. Start will create an uncompiled version and Build will create a compiled version which can be run on a web server. Once you press enter it should automatically open the app in your prefered/default browser.
-
-11. If it does not open automatically, in the terminal there will be a link that is along the lines of ["http://localhost:3000"]. All you need to do is open that link by holding CTRL and clicking it and the web app will open.
+10. If it does not open automatically, in the terminal there will be a link that is along the lines of ["http://localhost:3000"]. All you need to do is open that link by holding CTRL and clicking it and the web app will open.
 
 # Getting Started with Create React App
 
