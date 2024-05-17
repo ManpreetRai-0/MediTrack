@@ -21,7 +21,7 @@
 
 7. Open the VSCode terminal at the bottom of the window and type in "cd [file path to the project folder]", to navigate to folder containing all source code
 
-8.  add file location to vscode workspace, throught the file drop down menu on the top left.
+8.  Add file location to vscode workspace through the file drop down menu on the top left.
 
 9. Using the terminal again, type in `npm install`. THIS WILL INSTALL ALL DEPENDENCIES REQUIRED TO RUN THE APP. RUN THIS FIRST.
 
