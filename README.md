@@ -1,5 +1,11 @@
 # Installation Guide
 
+
+
+**Project Files at:** `https://github.com/ManpreetRai-0/MediTrack`
+
+
+
 1. You will need to install React, Node.js, GitHub Desktop(for ease of use) and VSCode in order to run this project.
 
 2. To install Node.js use this link: https://nodejs.org/en/
