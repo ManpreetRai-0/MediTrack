@@ -21,11 +21,13 @@
 
 7. Open the VSCode terminal at the bottom of the window and type in "cd [file path to the project folder]", to navigate to folder containing all source code
 
-8. Using the terminal again, type in `npm install`. THIS WILL INSTALL ALL DEPENDENCIES REQUIRED TO RUN THE APP. RUN THIS FIRST.
+8.  add file location to vscode workspace, throught the file drop down menu on the top left.
 
-9. Using the terminal one last time, type in `npm start` or `npm run build`. Either one will run the web app. Start will create an uncompiled version and Build will create a compiled version which can be run on a web server. Once you press enter it should automatically open the app in your prefered/default browser.
+9. Using the terminal again, type in `npm install`. THIS WILL INSTALL ALL DEPENDENCIES REQUIRED TO RUN THE APP. RUN THIS FIRST.
 
-10. If it does not open automatically, in the terminal there will be a link that is along the lines of ["http://localhost:3000"]. All you need to do is open that link by holding CTRL and clicking it and the web app will open.
+10. Using the terminal one last time, type in `npm start` or `npm run build`. Either one will run the web app. Start will create an uncompiled version and Build will create a compiled version which can be run on a web server. Once you press enter it should automatically open the app in your prefered/default browser.
+
+11. If it does not open automatically, in the terminal there will be a link that is along the lines of ["http://localhost:3000"]. All you need to do is open that link by holding CTRL and clicking it and the web app will open.
 
 # Getting Started with Create React App
 
