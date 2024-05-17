@@ -99,3 +99,30 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+# Firebase Guide
+1. Open Firebase on a Web Browser and create an account.
+2. Create a project called "MediTrack".
+3. Follow the instructions for linking the Firebase project to React app using npm.
+4. Replace the info in "MediTrack/src/Components/Config/firebase.js" with the new code found on Firebase.
+5. For help with setting up, refer to section ### Help with Firebase below.
+
+
+## Firebase Authentication
+1. Use the Authentication feature on Firebase to implement Authentication for MediTrack
+2. Use the Email/Password sign-in method found in "Sign-in method".
+3. Implement password reset template found in "Templates".
+4. Test the login on the Web App by doing "npm install" and "npm start" in the VS Code terminal
+5. The authentication should be up and running, if not, you can refer to the ### Help with Firebase section below.
+
+## Firebase "patients" Firestore Database
+1. Create a Firestore Database within the project.
+2. Start a collection and name it "patients".
+3. Navigate to "Rules" within the database and change "false" to "true"
+4. Test the database on the Web App by doing "npm install" and "npm start" in the VS Code terminal.
+5. The patients database should be up and running, if not, you can refer to the ### Help with Firebase section below.
+
+### Help with Firebase
+For issues with Firebase Database or Authentication, you can refer to this YouTube video: 
+https://youtu.be/2hR-uWjBAgw?si=Go1wX9RCd-UDg_gi 
